@@ -5,7 +5,8 @@ COPY --from=composer/composer:latest-bin /composer /usr/bin/composer
 ENV PATH="$PATH:/root/.composer/vendor/bin"
 
 RUN sed -i 's/http\:\/\//https\:\/\//g' /etc/apt/sources.list
-RUN apt-get update && apt-get install -y  libpq-dev
+RUN apt-get update && apt-get install -y unzip libzip-dev libpq-dev
+RUN docker-php-ext-install zip  
 RUN docker-php-ext-install pdo pdo_pgsql pgsql
 
 WORKDIR /project
