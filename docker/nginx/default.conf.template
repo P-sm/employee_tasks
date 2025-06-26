@@ -1,0 +1,39 @@
+server {
+    listen       ${APP_PORT};
+    server_name  localhost;
+
+    charset utf-8;
+
+    add_header Access-Control-Allow-Origin *;
+
+    root "/project/public";
+
+    # error pages
+    error_page   500 502 503 504  /50x.html;
+    error_page   403 /403.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+    location / {
+      # Check if a file or directory index file exists, else route it to index.php.
+      try_files $uri $uri/ /index.php;
+    }
+
+    location ~* \.php$ {
+      fastcgi_pass   php:9000;
+      include fastcgi.conf;
+    }
+
+    # deny access to .htaccess files, if Apache's document root
+    # concurs with nginx's one
+    #
+    location ~ /\.ht {
+        deny  all;
+    }
+
+    # deny access to .gitignore files
+    location ~ /\.git {
+        deny  all;
+    }
+}
