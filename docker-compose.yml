@@ -36,3 +36,9 @@ services:
       - type: bind
         source: ./
         target: /project
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
